@@ -43,9 +43,10 @@ With the Supplier Inventory extension for Magento 2 you have the possibility to 
 ## Configuration
  1. Go in your admin dashboard to: 
  `Catalog > Supplier Inventory > Suppliers`
- 1. Add Supplier by clicking the `Add Supplier` button
- 1. 
-
+ 1. Add New Supplier
+ 1. Add the Supplier Name as option to the Supplier (`supplier`) Product Attribute
+ 1. Importing the stock `php bin/magento falconmedia:supplierstock:import <id>` <id> is the Supplier Profile ID
+  
 ## Add Product Attributes
 
  - Product - Supplier (supplier)
@@ -53,4 +54,6 @@ With the Supplier Inventory extension for Magento 2 you have the possibility to 
 
 TODO:
  - When product aren't available at your warehouse and suppliers warehouse, the product will be set automatically `out of stock`. 
- - At a minimal stock of Suppliers, before you set prodcuts in stock
+ - Map `Yes / No` to the `1 / 0` into `supplier_stock`
+ - Add Minimal Saleable Stock rule for suppliers who reserve stock for their own, or when supplier have 1 item left and you don't want to take the risk it is out of stock at the time you want to purchase the product.
+ - Create ViewModel so the delivery time can also use in the Email and Cart/Checkout
