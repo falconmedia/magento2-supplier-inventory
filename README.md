@@ -2,11 +2,10 @@
 
     falconmedia/module-supplier-inventory
 
- - [Summary](#markdown-header-description)
+ - [Description](#markdown-header-description)
  - [Main Functionalities](#markdown-header-main-functionalities)
  - [Installation](#markdown-header-installation)
  - [Configuration](#markdown-header-configuration)
- - [Specifications](#markdown-header-specifications)
  - [Attributes](#markdown-header-attributes)
 
 ## Description
@@ -47,7 +46,7 @@ With the Supplier Inventory extension for Magento 2 you have the possibility to 
  1. Add the Supplier Name as option to the Supplier (`supplier`) Product Attribute
  1. Importing the stock `php bin/magento falconmedia:supplierstock:import <id>` <id> is the Supplier Profile ID
   
-## Add Product Attributes
+## Attributes
 
  - Product - Supplier (supplier)
  - Product - Supplier Stock (supplier_stock)
