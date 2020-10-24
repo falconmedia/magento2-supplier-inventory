@@ -1,0 +1,26 @@
+{
+    "name": "falconmedia/module-supplier-inventory",
+    "description": "Add Supplier Inventory Stock to Products",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "email": "henk@falconmedia.nl",
+            "name": "Henk Valk"
+        },
+        {
+            "email": "kerry@falconmedia.nl",
+            "name": "Kerry Lubin"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "FalconMedia\\SupplierInventory\\": ""
+        }
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" type="FalconMedia\SupplierInventory\Model\SupplierRepository"/>
+	<preference for="FalconMedia\SupplierInventory\Api\Data\SupplierInterface" type="FalconMedia\SupplierInventory\Model\Data\Supplier"/>
+	<preference for="FalconMedia\SupplierInventory\Api\Data\SupplierSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<virtualType name="FalconMedia\SupplierInventory\Model\ResourceModel\Supplier\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+		<arguments>
+			<argument name="mainTable" xsi:type="string">falconmedia_supplierinventory_supplier</argument>
+			<argument name="resourceModel" xsi:type="string">FalconMedia\SupplierInventory\Model\ResourceModel\Supplier\Collection</argument>
+		</arguments>
+	</virtualType>
+	<type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+		<arguments>
+			<argument name="collections" xsi:type="array">
+				<item name="falconmedia_supplierinventory_supplier_listing_data_source" xsi:type="string">FalconMedia\SupplierInventory\Model\ResourceModel\Supplier\Grid\Collection</item>
+			</argument>
+		</arguments>
+	</type>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="import_supplierstock" xsi:type="object">FalconMedia\SupplierInventory\Console\Command\ImportCsv</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

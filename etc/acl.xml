@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+	<acl>
+		<resources>
+			<resource id="Magento_Backend::admin">
+				<resource id="FalconMedia_SupplierInventory::Supplier" sortOrder="10" title="Supplier">
+					<resource id="FalconMedia_SupplierInventory::Supplier_save" sortOrder="10" title="Save Supplier"/>
+					<resource id="FalconMedia_SupplierInventory::Supplier_delete" sortOrder="20" title="Delete Supplier"/>
+					<resource id="FalconMedia_SupplierInventory::Supplier_update" sortOrder="30" title="Update Supplier"/>
+					<resource id="FalconMedia_SupplierInventory::Supplier_view" sortOrder="40" title="View Supplier"/>
+				</resource>
+				<resource id="FalconMedia_SupplierInventory::falconmedia_supplierinventory" sortOrder="10" title="falconmedia supplierinventory">
+					<resource id="FalconMedia_SupplierInventory::suppliers_index" sortOrder="10" title="suppliers index"/>
+				</resource>
+			</resource>
+		</resources>
+	</acl>
+</config>

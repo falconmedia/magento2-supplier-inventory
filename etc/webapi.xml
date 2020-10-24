@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+	<route method="POST" url="/V1/falconmedia-supplierinventory/supplier">
+		<service class="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="FalconMedia_SupplierInventory::Supplier_save"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/falconmedia-supplierinventory/supplier/search">
+		<service class="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" method="getList"/>
+		<resources>
+			<resource ref="FalconMedia_SupplierInventory::Supplier_view"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/falconmedia-supplierinventory/supplier/:supplierId">
+		<service class="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" method="get"/>
+		<resources>
+			<resource ref="FalconMedia_SupplierInventory::Supplier_view"/>
+		</resources>
+	</route>
+	<route method="PUT" url="/V1/falconmedia-supplierinventory/supplier/:supplierId">
+		<service class="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" method="save"/>
+		<resources>
+			<resource ref="FalconMedia_SupplierInventory::Supplier_update"/>
+		</resources>
+	</route>
+	<route method="DELETE" url="/V1/falconmedia-supplierinventory/supplier/:supplierId">
+		<service class="FalconMedia\SupplierInventory\Api\SupplierRepositoryInterface" method="deleteById"/>
+		<resources>
+			<resource ref="FalconMedia_SupplierInventory::Supplier_delete"/>
+		</resources>
+	</route>
+</routes>

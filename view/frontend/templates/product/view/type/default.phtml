@@ -1,0 +1,45 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+
+<?php /* @var $block \Magento\Catalog\Block\Product\View\AbstractView */
+
+
+?>
+<?php $_product = $block->getProduct() ?>
+
+<!-- TODO:  Implement Factory instead of Object Manager -->
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$stockInfo = $objectManager->get('Magento\CatalogInventory\Api\StockRegistryInterface')
+    ->getStockItem($_product->getId());
+$stocklevel = (int)$stockInfo->getQty();
+?>
+
+<?php if ($block->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable()): ?>
+        <div
+            class="product-view__stock-status--in-stock"
+            title="<?= __('Availability') ?>"
+        >
+            <?= __('In stock') ?>
+        </div>
+        <!-- TODO:  Implement  Factory instead of Object Manager -->
+        <?php if($stocklevel < 1 && $_product->getSupplierStock() > 0):
+            $model = $objectManager->create(\FalconMedia\SupplierInventory\Model\Supplier::class);
+            $model->load($_product->getAttributeText('supplier'), 'supplier_name');?>
+            <?php if(!empty($model->getSupplierShippingDays())):?>
+            <div class="custom__stock_status"><span class="product-view__stock-status--delivery__delay"><?= __($model->getSupplierShippingDays().' Shipping Days') ?></span></div>
+        <?php endif;?>
+        <?php else:?>
+            <div class="custom__stock_status"><span class="product-view__stock-status--delivery__directly"><?= __('Directly Available') ?></span></div>
+        <?php endif;?>
+    <?php else: ?>
+        <div
+            class="product-view__stock-status product-view__stock-status--alert"
+            title="<?= __('Availability') ?>"
+        >
+            <?= __('Out of stock') ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,10 @@
+.admin__menu [data-ui-id^="menu-falconmedia-"] .submenu-group-title span:before,
+.admin__menu [data-ui-id^="menu-magento-"] [data-ui-id^="menu-magento-"] [data-ui-id^="menu-falconmedia-"] span:before {
+    background: url(../images/menu-icon.svg) no-repeat;
+    width: 16px;
+    height: 19px;
+    content: '';
+    display: inline-block;
+    margin-right: 12px;
+    vertical-align: top;
+}
