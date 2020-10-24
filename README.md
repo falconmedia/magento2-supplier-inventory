@@ -2,12 +2,6 @@
 
     falconmedia/module-supplier-inventory
 
- - [Description](#markdown-header-description)
- - [Main Functionalities](#markdown-header-main-functionalities)
- - [Installation](#markdown-header-installation)
- - [Configuration](#markdown-header-configuration)
- - [Attributes](#markdown-header-attributes)
-
 ## Description
 Reason for developing this module is because a store owner can sell even the products are temporary out of stock, but are still available at the supplier. Normally your stock status would be set out of stock, or when you allow backorders, the customers will not shown there is a delay at the product page.
  
