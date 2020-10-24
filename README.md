@@ -27,7 +27,7 @@ With the Supplier Inventory extension for Magento 2 you have the possibility to 
  - Flush the cache by running `php bin/magento cache:flush`
 
 ### Through composer
-    composer require falconmedia/module-supplierinventory
+    composer require falconmedia/module-supplier-inventory
     php bin/magento module:enable FalconMedia_SupplierInventory
     php bin/magento setup:upgrade
     php bin/magento cache:flush
