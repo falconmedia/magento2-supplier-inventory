@@ -14,7 +14,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "firegento/fastsimpleimport": "*",
+        "league/csv": "^9.0"
+    },
     "autoload": {
         "files": [
             "registration.php"

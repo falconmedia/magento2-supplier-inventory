@@ -9,8 +9,8 @@
 					<resource id="FalconMedia_SupplierInventory::Supplier_update" sortOrder="30" title="Update Supplier"/>
 					<resource id="FalconMedia_SupplierInventory::Supplier_view" sortOrder="40" title="View Supplier"/>
 				</resource>
-				<resource id="FalconMedia_SupplierInventory::falconmedia_supplierinventory" sortOrder="10" title="falconmedia supplierinventory">
-					<resource id="FalconMedia_SupplierInventory::suppliers_index" sortOrder="10" title="suppliers index"/>
+				<resource id="FalconMedia_SupplierInventory::falconmedia_supplierinventory" sortOrder="10" title="Supplier Inventory">
+					<resource id="FalconMedia_SupplierInventory::suppliers_index" sortOrder="10" title="Suppliers Index"/>
 				</resource>
 			</resource>
 		</resources>
