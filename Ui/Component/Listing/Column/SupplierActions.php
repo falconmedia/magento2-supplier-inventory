@@ -1,31 +1,39 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Ui\Component\Listing\Column;
 
-class SupplierActions extends \Magento\Ui\Component\Listing\Columns\Column
-{
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Ui\Component\Listing\Columns\Column;
 
-    const URL_PATH_DETAILS = 'falconmedia_supplierinventory/supplier/details';
-    const URL_PATH_EDIT = 'falconmedia_supplierinventory/supplier/edit';
-    const URL_PATH_DELETE = 'falconmedia_supplierinventory/supplier/delete';
+class SupplierActions extends Column
+{
+    public const URL_PATH_DETAILS = 'falconmedia_supplierinventory/supplier/details',
+        URL_PATH_EDIT             = 'falconmedia_supplierinventory/supplier/edit',
+        URL_PATH_DELETE           = 'falconmedia_supplierinventory/supplier/delete';
+
+    /** @var UrlInterface  */
     protected $urlBuilder;
 
     /**
-     * @param \Magento\Framework\View\Element\UiComponent\ContextInterface $context
-     * @param \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory
-     * @param \Magento\Framework\UrlInterface $urlBuilder
-     * @param array $components
-     * @param array $data
+     * @param ContextInterface   $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param UrlInterface       $urlBuilder
+     * @param array              $components
+     * @param array              $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\UiComponent\ContextInterface $context,
-        \Magento\Framework\View\Element\UiComponentFactory $uiComponentFactory,
-        \Magento\Framework\UrlInterface $urlBuilder,
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        UrlInterface $urlBuilder,
         array $components = [],
         array $data = []
     ) {
@@ -37,6 +45,7 @@ class SupplierActions extends \Magento\Ui\Component\Listing\Columns\Column
      * Prepare Data Source
      *
      * @param array $dataSource
+     *
      * @return array
      */
     public function prepareDataSource(array $dataSource)
@@ -71,8 +80,7 @@ class SupplierActions extends \Magento\Ui\Component\Listing\Columns\Column
                 }
             }
         }
-        
+
         return $dataSource;
     }
 }
-

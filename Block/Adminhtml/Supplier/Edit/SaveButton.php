@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Block\Adminhtml\Supplier\Edit;
@@ -28,4 +30,3 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
         ];
     }
 }
-

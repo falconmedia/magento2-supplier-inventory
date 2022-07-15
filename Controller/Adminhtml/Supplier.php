@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Controller\Adminhtml;
@@ -14,10 +16,10 @@ use Magento\Framework\Registry;
 
 abstract class Supplier extends Action
 {
+    public const ADMIN_RESOURCE = 'FalconMedia_SupplierInventory::top_level';
 
-    protected $_coreRegistry;
-    const ADMIN_RESOURCE = 'FalconMedia_SupplierInventory::top_level';
-
+    /** @var Registry */
+    protected $coreRegistry;
 
     /**
      * @param Context  $context
@@ -27,24 +29,28 @@ abstract class Supplier extends Action
         Context $context,
         Registry $coreRegistry
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->coreRegistry = $coreRegistry;
         parent::__construct($context);
-
-    }//end __construct()
-
+    }
 
     /**
      * Init page
      *
      * @param  Page $resultPage
+     *
      * @return Page
      */
     public function initPage($resultPage)
     {
-        $resultPage->setActiveMenu(self::ADMIN_RESOURCE)->addBreadcrumb(__('FalconMedia'), __('FalconMedia'))->addBreadcrumb(__('Supplier'), __('Supplier'));
+        $resultPage->setActiveMenu(self::ADMIN_RESOURCE)
+            ->addBreadcrumb(
+                __('FalconMedia'),
+                __('FalconMedia')
+            )->addBreadcrumb(
+                __('Supplier'),
+                __('Supplier')
+            );
+
         return $resultPage;
-
-    }//end initPage()
-
-
-}//end class
+    }
+}

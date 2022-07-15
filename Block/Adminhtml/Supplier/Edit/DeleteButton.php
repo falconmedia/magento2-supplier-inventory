@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Block\Adminhtml\Supplier\Edit;
@@ -28,6 +30,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
                 'sort_order' => 20,
             ];
         }
+
         return $data;
     }
 
@@ -41,4 +44,3 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
         return $this->getUrl('*/*/delete', ['supplier_id' => $this->getModelId()]);
     }
 }
-

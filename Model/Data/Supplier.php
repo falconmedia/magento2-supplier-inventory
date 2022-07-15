@@ -1,19 +1,24 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Model\Data;
 
+use FalconMedia\SupplierInventory\Api\Data\SupplierExtensionInterface;
 use FalconMedia\SupplierInventory\Api\Data\SupplierInterface;
+use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\ExtensionAttributesInterface;
 
-class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implements SupplierInterface
+class Supplier extends AbstractExtensibleObject implements SupplierInterface
 {
-
     /**
      * Get supplier_id
+     *
      * @return string|null
      */
     public function getSupplierId()
@@ -23,8 +28,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_id
+     *
      * @param string $supplierId
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierId($supplierId)
     {
@@ -33,6 +40,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Get supplier_name
+     *
      * @return string|null
      */
     public function getSupplierName()
@@ -42,8 +50,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_name
+     *
      * @param string $supplierName
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierName($supplierName)
     {
@@ -52,6 +62,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Retrieve existing extension attributes object or create a new one.
+     *
      * @return \FalconMedia\SupplierInventory\Api\Data\SupplierExtensionInterface|null
      */
     public function getExtensionAttributes()
@@ -61,17 +72,19 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set an extension attributes object.
+     *
      * @param \FalconMedia\SupplierInventory\Api\Data\SupplierExtensionInterface $extensionAttributes
+     *
      * @return $this
      */
-    public function setExtensionAttributes(
-        \FalconMedia\SupplierInventory\Api\Data\SupplierExtensionInterface $extensionAttributes
-    ) {
+    public function setExtensionAttributes($extensionAttributes)
+    {
         return $this->_setExtensionAttributes($extensionAttributes);
     }
 
     /**
      * Get supplier_shipping_days
+     *
      * @return string|null
      */
     public function getSupplierShippingDays()
@@ -81,8 +94,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_shipping_days
+     *
      * @param string $supplierShippingDays
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierShippingDays($supplierShippingDays)
     {
@@ -91,6 +106,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Get supplier_feed_url
+     *
      * @return string|null
      */
     public function getSupplierFeedUrl()
@@ -100,8 +116,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_feed_url
+     *
      * @param string $supplierFeedUrl
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierFeedUrl($supplierFeedUrl)
     {
@@ -110,6 +128,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Get supplier_feed_separator
+     *
      * @return string|null
      */
     public function getSupplierFeedSeparator()
@@ -119,8 +138,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_feed_separator
+     *
      * @param string $supplierFeedSeparator
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierFeedSeparator($supplierFeedSeparator)
     {
@@ -129,6 +150,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Get supplier_feed_sku_field
+     *
      * @return string|null
      */
     public function getSupplierFeedSkuField()
@@ -138,8 +160,10 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Set supplier_feed_sku_field
+     *
      * @param string $supplierFeedSkuField
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierFeedSkuField($supplierFeedSkuField)
     {
@@ -148,6 +172,7 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
 
     /**
      * Get supplier_feed_stock_field
+     *
      * @return string|null
      */
     public function getSupplierFeedStockField()
@@ -156,13 +181,36 @@ class Supplier extends \Magento\Framework\Api\AbstractExtensibleObject implement
     }
 
     /**
-     * Set supplier_feed_stock_field
+     * Set supplier_feed_min_stock_field
+     *
      * @param string $supplierFeedStockField
-     * @return \FalconMedia\SupplierInventory\Api\Data\SupplierInterface
+     *
+     * @return SupplierInterface
      */
     public function setSupplierFeedStockField($supplierFeedStockField)
     {
         return $this->setData(self::SUPPLIER_FEED_STOCK_FIELD, $supplierFeedStockField);
     }
-}
 
+    /**
+     * Get supplier_feed_min_stock
+     *
+     * @return string|null
+     */
+    public function getSupplierFeedMinStock()
+    {
+        return $this->_get(self::SUPPLIER_FEED_MIN_STOCK);
+    }
+
+    /**
+     * Set supplier_feed_min_stock
+     *
+     * @param string $supplierFeedMinStock
+     *
+     * @return SupplierInterface
+     */
+    public function setSupplierFeedMinStock($supplierFeedMinStock)
+    {
+        return $this->setData(self::SUPPLIER_FEED_MIN_STOCK, $supplierFeedMinStock);
+    }
+}

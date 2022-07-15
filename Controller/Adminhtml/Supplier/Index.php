@@ -31,7 +31,7 @@ class Index extends Action
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context);
 
-    }//end __construct()
+    }
 
 
     /**
@@ -45,7 +45,7 @@ class Index extends Action
         $resultPage->getConfig()->getTitle()->prepend(__('Supplier'));
         return $resultPage;
 
-    }//end execute()
+    }
 
 
-}//end class
+}

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Setup\Patch\Data;
@@ -16,11 +18,11 @@ use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRevertableInterface
 {
-
     /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
+
     /**
      * @var EavSetupFactory
      */
@@ -30,7 +32,7 @@ class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRever
      * Constructor
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
-     * @param EavSetupFactory $eavSetupFactory
+     * @param EavSetupFactory          $eavSetupFactory
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -41,7 +43,7 @@ class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRever
     }
 
     /**
-     * {@inheritdoc}
+     * @return AddSupplierStockProductAttribute|void
      */
     public function apply()
     {
@@ -75,13 +77,16 @@ class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRever
                 'is_used_in_grid' => true,
                 'is_visible_in_grid' => false,
                 'is_filterable_in_grid' => false,
-                'option' => array('values' => array(""))
+                'option' => ['values' => [""]]
             ]
         );
 
         $this->moduleDataSetup->getConnection()->endSetup();
     }
 
+    /**
+     * @return void
+     */
     public function revert()
     {
         $this->moduleDataSetup->getConnection()->startSetup();
@@ -93,7 +98,7 @@ class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRever
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getAliases()
     {
@@ -101,13 +106,10 @@ class AddSupplierStockProductAttribute implements DataPatchInterface, PatchRever
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getDependencies()
     {
-        return [
-        
-        ];
+        return [];
     }
 }
-

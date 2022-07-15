@@ -1,23 +1,26 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Controller\Adminhtml\Supplier;
 
+use Exception;
 use FalconMedia\SupplierInventory\Model\Supplier;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 
 class InlineEdit extends Action
 {
-
+    /** @var JsonFactory */
     protected $jsonFactory;
-
 
     /**
      * @param Context     $context
@@ -29,9 +32,7 @@ class InlineEdit extends Action
     ) {
         parent::__construct($context);
         $this->jsonFactory = $jsonFactory;
-
-    }//end __construct()
-
+    }
 
     /**
      * Inline edit action
@@ -40,9 +41,6 @@ class InlineEdit extends Action
      */
     public function execute()
     {
-        /*
-            @var \Magento\Framework\Controller\Result\Json $resultJson
-        */
         $resultJson = $this->jsonFactory->create();
         $error      = false;
         $messages   = [];
@@ -61,13 +59,13 @@ class InlineEdit extends Action
                     try {
                         $model->setData(array_merge($model->getData(), $postItems[$modelid]));
                         $model->save();
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $messages[] = "[Supplier ID: {$modelid}]  {$e->getMessage()}";
                         $error      = true;
                     }
                 }
             }
-        }//end if
+        }
 
         return $resultJson->setData(
             [
@@ -75,8 +73,5 @@ class InlineEdit extends Action
                 'error'    => $error,
             ]
         );
-
-    }//end execute()
-
-
-}//end class
+    }
+}
