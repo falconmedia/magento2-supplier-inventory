@@ -1,24 +1,28 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Controller\Adminhtml\Supplier;
 
+use Exception;
 use FalconMedia\SupplierInventory\Model\Supplier;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\HTTP\PhpEnvironment\Request;
 
 class Save extends Action
 {
-
+    /** @var DataPersistorInterface */
     protected $dataPersistor;
-
 
     /**
      * @param Context                $context
@@ -30,9 +34,7 @@ class Save extends Action
     ) {
         $this->dataPersistor = $dataPersistor;
         parent::__construct($context);
-
-    }//end __construct()
-
+    }
 
     /**
      * Save action
@@ -41,13 +43,15 @@ class Save extends Action
      */
     public function execute()
     {
-        /*
-            @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect
-        */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        $data           = $this->getRequest()->getPostValue();
+
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $data    = $request->getPostValue();
+
         if ($data) {
-            $id = $this->getRequest()->getParam('supplier_id');
+            $id = $request->getParam('supplier_id');
 
             $model = $this->_objectManager->create(Supplier::class)->load($id);
             if (!$model->getId() && $id) {
@@ -62,24 +66,25 @@ class Save extends Action
                 $this->messageManager->addSuccessMessage(__('You saved the Supplier.'));
                 $this->dataPersistor->clear('falconmedia_supplierinventory_supplier');
 
-                if ($this->getRequest()->getParam('back')) {
+                if ($request->getParam('back')) {
                     return $resultRedirect->setPath('*/*/edit', ['supplier_id' => $model->getId()]);
                 }
 
                 return $resultRedirect->setPath('*/*/');
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Supplier.'));
             }
 
             $this->dataPersistor->set('falconmedia_supplierinventory_supplier', $data);
-            return $resultRedirect->setPath('*/*/edit', ['supplier_id' => $this->getRequest()->getParam('supplier_id')]);
-        }//end if
+
+            return $resultRedirect->setPath(
+                '*/*/edit',
+                ['supplier_id' => $request->getParam('supplier_id')]
+            );
+        }
 
         return $resultRedirect->setPath('*/*/');
-
-    }//end execute()
-
-
-}//end class
+    }
+}

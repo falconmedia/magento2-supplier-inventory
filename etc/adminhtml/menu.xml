@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
 	<menu>
-		<add id="FalconMedia::top_level" module="FalconMedia_SupplierInventory" resource="Magento_Backend::content" sortOrder="10" title="Supplier Inventory" parent="Magento_Catalog::catalog"/>
+		<add id="FalconMedia::top_level" module="FalconMedia_SupplierInventory" resource="Magento_Backend::content" sortOrder="10" title="Falcon Media - Supplier Inventory" parent="Magento_Catalog::catalog"/>
 		<add action="falconmedia_supplierinventory/supplier/index" id="FalconMedia_SupplierInventory::falconmedia_supplierinventory_supplier" module="FalconMedia_SupplierInventory" parent="FalconMedia::top_level" resource="Magento_Backend::content" sortOrder="10" title="Suppliers"/>
 	</menu>
 </config>

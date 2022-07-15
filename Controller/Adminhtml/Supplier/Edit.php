@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Controller\Adminhtml\Supplier;
@@ -15,9 +17,8 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Edit extends Supplier
 {
-
+    /** @var PageFactory */
     protected $resultPageFactory;
-
 
     /**
      * @param Context     $context
@@ -31,9 +32,7 @@ class Edit extends Supplier
     ) {
         $this->resultPageFactory = $resultPageFactory;
         parent::__construct($context, $coreRegistry);
-
-    }//end __construct()
-
+    }
 
     /**
      * Edit action
@@ -59,7 +58,7 @@ class Edit extends Supplier
             }
         }
 
-        $this->_coreRegistry->register('falconmedia_supplierinventory_supplier', $model);
+        $this->coreRegistry->register('falconmedia_supplierinventory_supplier', $model);
 
         // 3. Build edit form
         /*
@@ -71,10 +70,12 @@ class Edit extends Supplier
             $id ? __('Edit Supplier') : __('New Supplier')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Suppliers'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? __('Edit Supplier %1', $model->getId()) : __('New Supplier'));
+        $resultPage->getConfig()->getTitle()->prepend(
+            $model->getId()
+                ? __('Edit Supplier %1', $model->getId())
+                : __('New Supplier')
+        );
+
         return $resultPage;
-
-    }//end execute()
-
-
-}//end class
+    }
+}

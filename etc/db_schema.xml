@@ -10,6 +10,7 @@
 		<column name="supplier_feed_url" nullable="false" xsi:type="text"/>
 		<column length="255" name="supplier_feed_separator" nullable="false" xsi:type="varchar"/>
 		<column length="255" name="supplier_feed_sku_field" nullable="false" xsi:type="varchar"/>
-		<column name="supplier_feed_stock_field" nullable="false" xsi:type="text"/>
+		<column length="255" name="supplier_feed_stock_field" nullable="false" xsi:type="varchar"/>
+		<column length="255" name="supplier_feed_min_stock" nullable="false" xsi:type="varchar"/>
 	</table>
 </schema>

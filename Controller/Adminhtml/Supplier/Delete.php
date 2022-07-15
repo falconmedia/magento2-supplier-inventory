@@ -1,19 +1,21 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Controller\Adminhtml\Supplier;
 
+use Exception;
 use FalconMedia\SupplierInventory\Controller\Adminhtml\Supplier;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 
 class Delete extends Supplier
 {
-
-
     /**
      * Delete action
      *
@@ -21,12 +23,11 @@ class Delete extends Supplier
      */
     public function execute()
     {
-        /*
-            @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect
-        */
+        /** @var Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         // check if we know what should be deleted
         $id = $this->getRequest()->getParam('supplier_id');
+
         if ($id) {
             try {
                 // init model and delete
@@ -37,7 +38,7 @@ class Delete extends Supplier
                 $this->messageManager->addSuccessMessage(__('You deleted the Supplier.'));
                 // go to grid
                 return $resultRedirect->setPath('*/*/');
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // display error message
                 $this->messageManager->addErrorMessage($e->getMessage());
                 // go back to edit form
@@ -49,8 +50,5 @@ class Delete extends Supplier
         $this->messageManager->addErrorMessage(__('We can\'t find a Supplier to delete.'));
         // go to grid
         return $resultRedirect->setPath('*/*/');
-
-    }//end execute()
-
-
-}//end class
+    }
+}

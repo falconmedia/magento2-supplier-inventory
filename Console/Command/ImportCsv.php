@@ -1,36 +1,29 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Console\Command;
 
+use FalconMedia\SupplierInventory\Api\Data\SupplierInterface;
 use FalconMedia\SupplierInventory\Model\SupplierRepository;
 use FireGento\FastSimpleImport\Model\Adapters\NestedArrayAdapterFactory;
 use FireGento\FastSimpleImport\Model\Importer;
 use League\Csv\Exception;
 use League\Csv\Reader;
 use League\Csv\Statement;
-use Magento\Catalog\Api\ProductRepositoryInterface;
+use League\Csv\TabularDataReader;
 use Magento\Catalog\Model\Product;
-use Magento\CatalogInventory\Model\Stock\StockItemRepository;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\App\State;
-use Magento\Framework\Filesystem\Directory\ReadFactory;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\ImportExport\Model\Import;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 
 class ImportCsv extends Command
 {
-    const NAME_ARGUMENT = 'ID';
-
-    /**
-     * @var DirectoryList
-     */
-    private $directoryList;
+    private const NAME_ARGUMENT = 'ID';
 
     /**
      * @var Importer
@@ -41,16 +34,6 @@ class ImportCsv extends Command
      * @var NestedArrayAdapterFactory
      */
     protected $nestedArrayAdapterFactory;
-
-    /**
-     * @var ReadFactory
-     */
-    private $readFactory;
-
-    /**
-     * @var StockItemRepository
-     */
-    private $stockItemRepository;
 
     /**
      * @var Product
@@ -68,82 +51,53 @@ class ImportCsv extends Command
     protected $entityCode;
 
     /**
-     * @var boolean|bool[]|null
-     */
-    private $delimiter;
-
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepository;
-
-    /**
-     * @var State
-     */
-    private $state;
-
-    /**
      * @var SupplierRepository
      */
     private $supplierRepository;
 
+    /**
+     * @var StockRegistryInterface
+     */
+    private $stockRegistry;
 
     /**
      * Import constructor.
      *
-     * @param DirectoryList              $directoryList
-     * @param ReadFactory                $readFactory
-     * @param ProductRepositoryInterface $productRepository
-     * @param State                      $state
-     * @param SupplierRepository         $supplierRepository
-     * @param Filesystem                 $filesystem
-     * @param ResourceConnection         $resourceConnection
-     * @param StockItemRepository        $stockItemRepository
-     * @param Product                    $product
-     * @param Importer                   $importer
-     * @param NestedArrayAdapterFactory  $nestedArrayAdapterFactory
-     * @param Finder                     $finder
+     * @param SupplierRepository        $supplierRepository
+     * @param Product                   $product
+     * @param Importer                  $importer
+     * @param NestedArrayAdapterFactory $nestedArrayAdapterFactory
+     * @param StockRegistryInterface    $stockRegistry
      */
     public function __construct(
-        DirectoryList $directoryList,
-        ReadFactory $readFactory,
-        ProductRepositoryInterface $productRepository,
-        State $state,
         SupplierRepository $supplierRepository,
-        ResourceConnection $resourceConnection,
-        StockItemRepository $stockItemRepository,
         Product $product,
         Importer $importer,
         NestedArrayAdapterFactory $nestedArrayAdapterFactory,
-        Finder $finder
+        StockRegistryInterface $stockRegistry
     ) {
-        $this->directoryList       = $directoryList;
-        $this->readFactory         = $readFactory;
-        $this->productRepository   = $productRepository;
-        $this->state               = $state;
-        $this->supplierRepository  = $supplierRepository;
-        $this->resourceConnection  = $resourceConnection;
-        $this->stockItemRepository = $stockItemRepository;
-        $this->product             = $product;
-        $this->importer            = $importer;
+        $this->supplierRepository        = $supplierRepository;
+        $this->product                   = $product;
+        $this->importer                  = $importer;
         $this->nestedArrayAdapterFactory = $nestedArrayAdapterFactory;
-        $this->finder                    = $finder;
+        $this->stockRegistry             = $stockRegistry;
+
         parent::__construct();
-
-    }//end __construct()
-
+    }
 
     /**
-     * {@inheritdoc}
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return int|void
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->updateSupplierStock($input->getArgument(self::NAME_ARGUMENT));
-    }//end execute()
-
+    }
 
     /**
-     * {@inheritdoc}
+     * @return void
      */
     protected function configure()
     {
@@ -161,108 +115,168 @@ class ImportCsv extends Command
         );
         $this->setEntityCode('catalog_product');
         parent::configure();
+    }
 
-    }//end configure()
-
-
-    protected function readCSVUrl($supplierId, $supplier)
+    /**
+     * @param string            $supplierId
+     * @param SupplierInterface $supplier
+     *
+     * @return TabularDataReader|null
+     */
+    // phpcs:ignore
+    protected function readCSVUrl(string $supplierId, SupplierInterface $supplier): ?TabularDataReader
     {
-        $csvFile    = $supplier->getSupplierFeedUrl();
+        $csvFile    = $supplier->getSupplierFeedUrl() . '?' . date("YmdHis");
         $delimiter  = $supplier->getSupplierFeedSeparator();
         $csvContent = file_get_contents($csvFile);
+
         try {
             $csv = Reader::createFromString($csvContent);
             $csv->setDelimiter($delimiter);
             $csv->setHeaderOffset(0);
         } catch (Exception $e) {
+            return null;
         }
 
-        $stmt = (new Statement());
-        return $stmt->process($csv);
+        return (new Statement())->process($csv);
+    }
 
-    }//end readCSVUrl()
-
-
-    protected function getEntities($supplierId, $supplier)
+    /**
+     * @param string            $supplierId
+     * @param SupplierInterface $supplier
+     *
+     * @return array
+     */
+    protected function getEntities(string $supplierId, SupplierInterface $supplier)
     {
         $csvIterationObject = $this->readCSVUrl($supplierId, $supplier);
         $data               = [];
+
         foreach ($csvIterationObject as $row) {
-            $sku           = $row[$supplier->getSupplierFeedSkuField()];
-            if ($this->product->getIdBySku($sku)) {
-                $sku           = $row[$supplier->getSupplierFeedSkuField()];
-                $supplierStock = $row[$supplier->getSupplierFeedStockField()];
-                $supplierName  = $supplier->getSupplierName();
-                $data[]        = [
-                    'sku'            => $sku,
-                    'supplier_stock' => $supplierStock,
-                    'supplier'       => $supplierName,
+            $sku       = $row[$supplier->getSupplierFeedSkuField()];
+            $productId = (int) $this->product->getIdBySku($sku);
+
+            if ($productId) {
+                $supplierStock    = $row[$supplier->getSupplierFeedStockField()];
+                $isProductInStock = $this->isProductInStock($supplier, $productId, $supplierStock);
+                $allowBackorders  = $this->supplierHasStock($supplier, $supplierStock);
+                $data[]           = [
+                    'sku'              => trim($sku),
+                    'supplier_stock'   => $supplierStock,
+                    'supplier'         => $supplier->getSupplierName(),
+                    'is_in_stock'      => $isProductInStock,
+                    'allow_backorders' => $allowBackorders,
+                    'product_type'     => 'simple',
+                    '_store'           => 0
                 ];
             }
         }
 
         return $data;
+    }
 
-    }//end getEntities()
-
-
-    protected function updateSupplierStock($supplierId)
+    /**
+     * @param string $supplierId
+     *
+     * @return void
+     */
+    protected function updateSupplierStock(string $supplierId): void
     {
-        $supplier      = $this->supplierRepository->get($supplierId);
-        $supplierName  = $supplier->getSupplierName();
-        $importerModel = $this->importer;
-        $productsArray = $this->getEntities($supplierId, $supplier);
-        $importerModel->setBehavior($this->getBehavior());
-        $importerModel->setEntityCode($this->getEntityCode());
-        $adapterFactory = $this->nestedArrayAdapterFactory;
-        $importerModel->setImportAdapterFactory($adapterFactory);
-
         try {
+            $supplier       = $this->supplierRepository->get($supplierId);
+            $importerModel  = $this->importer;
+            $productsArray  = $this->getEntities($supplierId, $supplier);
+            $adapterFactory = $this->nestedArrayAdapterFactory;
+
             if ($productsArray) {
+                $importerModel->setBehavior($this->getBehavior());
+                $importerModel->setEntityCode($this->getEntityCode());
+                $importerModel->setImportAdapterFactory($adapterFactory);
                 $importerModel->processImport($productsArray);
             }
-        } catch (\Exception $e) {
+        } catch (LocalizedException $e) {
             print($e->getMessage());
         }
+    }
 
-    }//end updateSupplierStock()
-
-
-    public function getBehavior()
+    /**
+     * @return string
+     */
+    public function getBehavior(): string
     {
         return $this->behavior;
-
-    }//end getBehavior()
+    }
 
 
     /**
      * @param string $behavior
+     *
+     * @return void
      */
-    public function setBehavior($behavior)
+    public function setBehavior(string $behavior): void
     {
         $this->behavior = $behavior;
-
-    }//end setBehavior()
+    }
 
 
     /**
      * @return string
      */
-    public function getEntityCode()
+    public function getEntityCode(): string
     {
         return $this->entityCode;
-
-    }//end getEntityCode()
+    }
 
 
     /**
      * @param string $entityCode
+     *
+     * @return void
      */
-    public function setEntityCode($entityCode)
+    public function setEntityCode(string $entityCode): void
     {
         $this->entityCode = $entityCode;
+    }
 
-    }//end setEntityCode()
+    /**
+     * Check if the product supplied by the supplier is in stock in Magento.
+     *
+     * @param SupplierInterface $supplier
+     * @param int               $productId
+     * @param string            $supplierStock
+     *
+     * @return bool
+     */
+    private function isProductInStock(SupplierInterface $supplier, int $productId, string $supplierStock): bool
+    {
+        $stockItem = $this->stockRegistry->getStockItem($productId);
 
+        // First of all, check if there is actual stock for the product itself
+        if ($stockItem->getQty() > 0) {
+            return true;
+        }
 
-}//end class
+        return $this->supplierHasStock($supplier, $supplierStock);
+    }
+
+    /**
+     * @param SupplierInterface $supplier
+     * @param string            $supplierStock
+     *
+     * @return bool
+     */
+    private function supplierHasStock(SupplierInterface $supplier, string $supplierStock): bool
+    {
+        if (stristr($supplierStock, '-')) {
+            // If there is a range for the stock, we should keep the minimum as a base here.
+            $stockParts    = explode('-', $supplierStock);
+            $supplierStock = (int)reset($stockParts);
+        } elseif (substr($supplierStock, -1) === '+') {
+            // If the is a minimum set (i.e. 50+), we should use that minimum as a base here.
+            $stockParts    = explode('+', $supplierStock);
+            $supplierStock = (int)reset($stockParts);
+        }
+
+        return $supplierStock >= (int) $supplier->getSupplierFeedMinStock();
+    }
+}

@@ -1,8 +1,10 @@
 <?php
+
 /**
  * Copyright © Falcon Media All rights reserved.
  * See COPYING.txt for license details.
  */
+
 declare(strict_types=1);
 
 namespace FalconMedia\SupplierInventory\Setup\Patch\Data;
@@ -16,11 +18,11 @@ use Magento\Framework\Setup\Patch\PatchRevertableInterface;
 
 class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertableInterface
 {
-
     /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
+
     /**
      * @var EavSetupFactory
      */
@@ -30,7 +32,7 @@ class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertable
      * Constructor
      *
      * @param ModuleDataSetupInterface $moduleDataSetup
-     * @param EavSetupFactory $eavSetupFactory
+     * @param EavSetupFactory          $eavSetupFactory
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
@@ -41,7 +43,7 @@ class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertable
     }
 
     /**
-     * {@inheritdoc}
+     * @return AddSupplierProductAttribute|void
      */
     public function apply()
     {
@@ -82,6 +84,9 @@ class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertable
         $this->moduleDataSetup->getConnection()->endSetup();
     }
 
+    /**
+     * @return void
+     */
     public function revert()
     {
         $this->moduleDataSetup->getConnection()->startSetup();
@@ -93,7 +98,7 @@ class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertable
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getAliases()
     {
@@ -101,13 +106,10 @@ class AddSupplierProductAttribute implements DataPatchInterface, PatchRevertable
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public static function getDependencies()
     {
-        return [
-        
-        ];
+        return [];
     }
 }
-

@@ -109,7 +109,7 @@
 		</column>
 		<column name="supplier_feed_separator">
 			<settings>
-                <label translate="true">Field Separator</label>
+                <label translate="true">Field Delimiter</label>
 				<editor>
 					<editorType>text</editorType>
 					<validation>
@@ -140,6 +140,17 @@
 				</editor>
 			</settings>
 		</column>
+        <column name="supplier_feed_min_stock">
+            <settings>
+                <label translate="true">Min Stock</label>
+                <editor>
+                    <editorType>text</editorType>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">false</rule>
+                    </validation>
+                </editor>
+            </settings>
+        </column>
         <actionsColumn class="FalconMedia\SupplierInventory\Ui\Component\Listing\Column\SupplierActions" name="actions">
             <settings>
                 <indexField>supplier_id</indexField>

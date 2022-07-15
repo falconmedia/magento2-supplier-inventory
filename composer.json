@@ -3,6 +3,7 @@
     "description": "Add Supplier Inventory Stock to Products",
     "type": "magento2-module",
     "license": "OSL-3.0",
+    "version": "1.1.0",
     "authors": [
         {
             "email": "henk@falconmedia.nl",

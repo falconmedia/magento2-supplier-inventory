@@ -48,7 +48,7 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_name</label>
+				<label translate="true">Supplier Name</label>
 				<dataScope>supplier_name</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
@@ -63,7 +63,7 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_shipping_days</label>
+				<label translate="true">Shipping Days to show</label>
 				<dataScope>supplier_shipping_days</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
@@ -78,7 +78,7 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_feed_url</label>
+				<label translate="true">CSV Feed URL</label>
 				<dataScope>supplier_feed_url</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
@@ -93,7 +93,7 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_feed_separator</label>
+				<label translate="true">CSV Delimiter</label>
 				<dataScope>supplier_feed_separator</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
@@ -108,14 +108,14 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_feed_sku_field</label>
+				<label translate="true">Supplier SKU Field name</label>
 				<dataScope>supplier_feed_sku_field</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
 				</validation>
 			</settings>
 		</field>
-		<field formElement="textarea" name="supplier_feed_stock_field" sortOrder="60">
+		<field formElement="input" name="supplier_feed_stock_field" sortOrder="60">
 			<argument name="data" xsi:type="array">
 				<item name="config" xsi:type="array">
 					<item name="source" xsi:type="string">Supplier</item>
@@ -123,12 +123,27 @@
 			</argument>
 			<settings>
 				<dataType>text</dataType>
-				<label translate="true">supplier_feed_stock_field</label>
+				<label translate="true">Supplier QTY Field name</label>
 				<dataScope>supplier_feed_stock_field</dataScope>
 				<validation>
 					<rule name="required-entry" xsi:type="boolean">false</rule>
 				</validation>
 			</settings>
 		</field>
+        <field formElement="input" name="supplier_feed_min_stock" sortOrder="70">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">Supplier</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Min Stock Supplier</label>
+                <dataScope>supplier_feed_min_stock</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
 	</fieldset>
 </form>
